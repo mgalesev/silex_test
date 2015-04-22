@@ -3,3 +3,9 @@
 
 # vendor libraries
 vendor/*
+
+# config file
+app/config/config.yml
+
+# cache dir
+app/cache

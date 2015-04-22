@@ -1,0 +1,16 @@
+database:
+    driver:   'pdo_mysql'
+    host:     'localhost'
+    user:     'root'
+    password: ''
+
+twig:
+    twig.path: ['../src/Gallery/view']
+    twig.options:
+        cache: '../app/cache'
+
+debug: 1
+
+imports:
+    routing:
+        resource: 'routing.yml'

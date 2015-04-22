@@ -1,0 +1,5 @@
+routes:
+    images:
+        method: 'get'
+        path: '/images'
+        action: 'Gallery\Controller\ImageController::indexAction'
