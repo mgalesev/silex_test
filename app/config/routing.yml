@@ -1,5 +1,13 @@
 routes:
+    home:
+        method: 'get'
+        path: '/'
+        action: 'Gallery\Controller\BasicPageController::homeAction'
     images:
         method: 'get'
-        path: '/images'
+        path: '/image'
         action: 'Gallery\Controller\ImageController::indexAction'
+    add_image:
+        method: 'match'
+        path: '/image/add'
+        action: 'Gallery\Controller\ImageController::addAction'
