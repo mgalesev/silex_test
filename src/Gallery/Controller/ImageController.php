@@ -2,7 +2,6 @@
 
 namespace Gallery\Controller;
 
-use Gallery\Form\ImageType;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
