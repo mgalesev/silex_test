@@ -10,29 +10,24 @@ class ImageController
 {
     public function indexAction(Request $request, Application $app)
     {
-//        $artist = $request->attributes->get('artist');
-//        if (!$artist) {
-//            $app->abort(404, 'The requested artist was not found.');
-//        }
+        $images = $app['gallery_service']->getImages();
 
-        $data = array(
-          'data' => 'ddddddd',
-        );
-
-        return $app['twig']->render('Image/index.html.twig', $data);
+        return $app['twig']->render('Image/index.html.twig', array(
+            'title' => 'Images',
+            'images' => $images,
+        ));
     }
 
+    /**
+     * Add image.
+     *
+     * @param Request     $request
+     * @param Application $app
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function addAction(Request $request, Application $app)
     {
-//        $form = $app['form.factory']->createBuilder('form', array())
-//          ->add('name')
-//          ->add('email')
-//          ->add('gender', 'choice', array(
-//            'choices' => array(1 => 'male', 2 => 'female'),
-//            'expanded' => true,
-//          ))
-//          ->getForm();
-
         $form = $app['form.factory']
           ->createBuilder('image_add')
           ->getForm();
@@ -40,16 +35,113 @@ class ImageController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $data = $form->getData();
+            if ($app['gallery_service']->createImage($form->getData())) {
+                $app['session']->getFlashBag()->add('sucess', 'Sucessfully added new image.');
 
-            // do something with the data
-
-            return $app->redirect('/image');
+                return $app->redirect('/image');
+            }
+            else {
+                $app['session']->getFlashBag()->add('error', 'Unable to create new image.');
+            }
         }
 
         return $app['twig']->render('Image/add.html.twig', array(
+            'title' => 'Add image',
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * Edit image.
+     *
+     * @param Request     $request
+     * @param Application $app
+     * @param int         $id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editAction(Request $request, Application $app, $id)
+    {
+        $image = $app['gallery_service']->getImage($id);
+        if (empty($image)) {
+            throw new ResourceNotFoundException('Image not found');
+        }
+
+        $form = $app['form.factory']
+          ->createBuilder('image_add', $image)
+          ->getForm($image);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            if ($app['gallery_service']->editImage($id, $form->getData())) {
+                $app['session']->getFlashBag()->add('sucess', 'Image successfully edited.');
+
+                return $app->redirect('/image');
+            }
+            else {
+                $app['session']->getFlashBag()->add('error', 'Unable to create new image.');
+            }
+        }
+
+        return $app['twig']->render('Image/add.html.twig', array(
+          'title' => 'Edit image',
           'form' => $form->createView()
         ));
+    }
 
+    /**
+     * Delete image.
+     *
+     * @param Request     $request
+     * @param Application $app
+     * @param int         $id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction(Request $request, Application $app, $id)
+    {
+        $image = $app['gallery_service']->getImage($id);
+        if (empty($image)) {
+            throw new ResourceNotFoundException('Image not found');
+        }
+
+        $form = $app['form.factory']->createBuilder('form')
+            ->add('cancel', 'submit', array(
+              'label' => 'Cancel',
+              'attr' => array(
+                'class' => 'btn btn-default',
+              ),
+            ))
+            ->add('delete', 'submit', array(
+              'label' => 'Delete',
+              'attr' => array(
+                  'class' => 'btn btn-sm btn-danger',
+              ),
+            ))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->get('cancel')->isClicked())
+        {
+            return $app->redirect('/image');
+        }
+        elseif ($form->get('delete')->isClicked())
+        {
+            if ($app['gallery_service']->deleteImage($id)) {
+                $app['session']->getFlashBag()->add('sucess', 'Image successfully deleted.');
+
+                return $app->redirect('/image');
+            }
+            else {
+                $app['session']->getFlashBag()->add('error', 'Unable to delete image.');
+            }
+        }
+
+        return $app['twig']->render('Image/delete.html.twig', array(
+          'title' => 'Confirm delete',
+          'form' => $form->createView()
+        ));
     }
 }

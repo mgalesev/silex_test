@@ -2,7 +2,8 @@
   "name": "app-name",
   "version": "0.0.1",
   "dependencies": {
-    "bootstrap": "~3.3.4"
+    "bootstrap": "~3.3.4",
+    "datatables-bootstrap3-plugin": "~0.4.0"
   },
   "private": true
 }

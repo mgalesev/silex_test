@@ -1,0 +1,15 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+
+  <h4>Confirm delete of image.</h4>
+  <form role="form" method="post">
+    <div class="clearfix">
+      <div class="btn-group inline pull-left">
+        {{ form_row(form.cancel) }}
+        {{ form_row(form.delete) }}
+      </div>
+    </div>
+  </form>
+
+{% endblock %}

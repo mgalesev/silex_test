@@ -11,3 +11,15 @@ routes:
         method: 'match'
         path: '/image/add'
         action: 'Gallery\Controller\ImageController::addAction'
+    edit_image:
+        method: 'match'
+        path: '/image/{id}/edit'
+        action: 'Gallery\Controller\ImageController::editAction'
+        required:
+            id: '\d+'
+    delete_image:
+        method: 'match'
+        path: '/image/{id}/delete'
+        action: 'Gallery\Controller\ImageController::deleteAction'
+        required:
+            id: '\d+'
