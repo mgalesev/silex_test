@@ -1,8 +1,11 @@
 # IDE files
 .idea/*
 
-# vendor libraries
+# composer vendor libraries
 vendor/*
+
+# grunt component libraries
+web/components
 
 # config file
 app/config/config.yml

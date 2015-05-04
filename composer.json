@@ -1,4 +1,6 @@
 {
+    "name": "Silex test",
+    "description": "Testing of Silex app and Sension labs insight",
     "require": {
         "silex/silex": "~1.2",
         "deralex/yaml-config-service-provider": "1.0.x-dev",
