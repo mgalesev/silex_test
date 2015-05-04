@@ -5,7 +5,7 @@
 vendor/*
 
 # grunt component libraries
-web/components
+web/components/*
 
 # config file
 app/config/config.yml
