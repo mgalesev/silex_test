@@ -5,7 +5,7 @@ routes:
         action: 'Gallery\Controller\BasicPageController::homeAction'
     images:
         method: 'get'
-        path: '/image'
+        path: '/image/'
         action: 'Gallery\Controller\ImageController::indexAction'
     add_image:
         method: 'match'

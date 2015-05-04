@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class ImageController
 {
-    public function indexAction(Request $request, Application $app)
+    public function indexAction(Application $app)
     {
         $images = $app['gallery_service']->getImages();
 

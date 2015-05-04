@@ -7,8 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class BasicPageController
 {
-    public function homeAction(Request $request, Application $app)
+    public function homeAction(Application $app)
     {
+
         $data = array(
           'data' => 'Welcome',
         );
